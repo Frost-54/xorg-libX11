@@ -3,14 +3,14 @@ add_library(x11-XI18N_DL
       XlcSL.c
 )
 
-target_include_directories(
-      x11-XI18N PRIVATE
-      ${X11_INCLUDE_DIRS}
+target_link_libraries(
+      x11-XI18N_DL PRIVATE
+      x11-root-target
 )
 
 target_compile_definitions(
-      x11-XI18N PRIVATE
-      _BSD_SOURCE
+      x11-XI18N_DL PRIVATE
+      _DEFAULT_SOURCE
 )
 
 add_library(x11-libi18n STATIC
@@ -109,4 +109,10 @@ target_link_libraries(x11-libi18n
       x11-libxlcUTF8Load
       x11-libximcp
       x11-libxomGeneric
+      x11-root-target
+)
+add_dependencies(x11-libi18n x11-root-target)
+
+target_compile_definitions(x11-libi18n PRIVATE 
+      XLOCALELIBDIR=\"${CMAKE_BINARY_DIR}\"
 )

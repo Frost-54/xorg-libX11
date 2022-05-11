@@ -27,4 +27,4 @@
 #define XIM_t 1
 #define TRANS_CLIENT 1
 
-#include <X11/Xtrans/transport.c>
+#include <transport.c>

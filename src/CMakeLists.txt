@@ -1,3 +1,9 @@
+add_subdirectory(util)
+add_subdirectory(xkb)
+add_subdirectory(xcms)
+add_subdirectory(xlibi18n)
+
+
 add_library(libx11 STATIC
       AllCells.c 
       AllowEv.c 
@@ -275,14 +281,41 @@ add_library(libx11 STATIC
       Xxcbint.h
 )
 
-target_include_directories(libx11 PRIVATE 
-      ${X11_INCLUDE_DIRS}
-)
-
-target_compile_definitions(libx11 PRIVATE _BSD_SOURCE X11_T TRANS_CLIENT)
+target_compile_definitions(libx11 PRIVATE _DEFAULT_SOURCE X11_T TRANS_CLIENT)
 
 target_link_libraries(libx11
       x11-libi18n
       x11-libxcms
       x11-libxkb
+      x11-root-target
 )
+target_include_directories(libx11 PRIVATE
+      ${X11_INCLUDE_DIRS}
+      ${CMAKE_CURRENT_BINARY_DIR}
+)
+
+add_dependencies(libx11 
+      x11-libi18n
+      x11-libxcms
+      x11-libxkb
+      x11-root-target
+)
+add_dependencies(libx11 x11-makekeys)
+add_dependencies(libx11 x11-gen-ks_table)
+
+list(APPEND GEN_HEADER_INPUT 
+      ${X11_PROTOCOL_PATH}/include/X11/keysymdef.h 
+      ${X11_PROTOCOL_PATH}/include/X11/XF86keysym.h 
+      ${X11_PROTOCOL_PATH}/include/X11/Sunkeysym.h 
+      ${X11_PROTOCOL_PATH}/include/X11/DECkeysym.h 
+      ${X11_PROTOCOL_PATH}/include/X11/HPkeysym.h
+)
+
+add_custom_target(x11-gen-ks_table
+      DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/ks_table.h
+)
+add_custom_command(
+      COMMAND $<TARGET_FILE:x11-makekeys> ${GEN_HEADER_INPUT} > ${CMAKE_CURRENT_BINARY_DIR}/ks_tables.h
+      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/ks_table.h
+)
+add_dependencies(x11-gen-ks_table x11-makekeys)

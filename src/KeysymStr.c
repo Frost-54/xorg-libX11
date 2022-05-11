@@ -36,6 +36,7 @@ in this Software without prior written authorization from The Open Group.
 #include <stdio.h> /* sprintf */
 
 #define NEEDVTABLE
+#include <xkbcommon/xkbcommon.h>
 #include "ks_tables.h"
 #include "Key.h"
 

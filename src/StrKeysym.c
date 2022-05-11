@@ -34,6 +34,7 @@ in this Software without prior written authorization from The Open Group.
 #include "Xresinternal.h"
 
 #define NEEDKTABLE
+#include <xkbcommon/xkbcommon.h>
 #include "ks_tables.h"
 #include "Key.h"
 

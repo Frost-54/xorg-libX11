@@ -23,5 +23,6 @@ add_library(x11-libxkb
       XKBlibint.h
 )
 
-target_include_directories(x11-libxkb PRIVATE ${X11_INCLUDE_DIRS})
-target_compile_definitions(x11-libxkb PRIVATE _BSD_SOURCE)
+target_link_libraries(x11-libxkb PRIVATE x11-root-target)
+target_compile_definitions(x11-libxkb PRIVATE _DEFAULT_SOURCE)
+add_dependencies(x11-libxkb x11-root-target)

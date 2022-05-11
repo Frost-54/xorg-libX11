@@ -28,10 +28,12 @@ add_library(x11-ximcp STATIC
       ${XIMCP_SOURCES}
 )
 
-target_include_directories(x11-ximcp PRIVATE
-      ${X11_INCLUDE_DIRS}
+target_link_libraries(x11-ximcp PRIVATE
+      x11-root-target
 )
 
 target_compile_definitions(x11-ximcp PRIVATE
       BSD_SOURCE XIM_t TRANS_CLIENT
 )
+
+add_dependencies(x11-ximcp x11-root-target)

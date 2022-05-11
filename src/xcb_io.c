@@ -9,7 +9,7 @@
 #include "locking.h"
 #include "Xprivate.h"
 #include "Xxcbint.h"
-#include <xcb/xcbext.h>
+#include <xcbext.h>
 
 #include <assert.h>
 #ifdef HAVE_INTTYPES_H

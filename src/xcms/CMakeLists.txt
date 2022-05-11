@@ -66,4 +66,13 @@ add_library(x11-libxcms STATIC
       Xcmsint.h
 )
 
-target_include_directories(x11-libxcms PRIVATE ${X11_INCLUDE_DIRS})
+target_link_libraries(x11-libxcms PRIVATE x11-root-target)
+target_compile_definitions(x11-libxcms PRIVATE
+      XCMSDB=${X11_DATA_FILE_DEFINE_DIR}
+)
+add_dependencies(x11-libxcms x11-root-target)
+add_custom_command(TARGET x11-libxcms
+      POST_BUILD
+      COMMAND cp ${CMAKE_CURRENT_LIST_DIR}/Xcms.txt ${X11_DATA_FILE_DIR}/Xcms.txt
+)
+execute_process(COMMAND mkdir ${X11_DATA_FILE_DIR})
